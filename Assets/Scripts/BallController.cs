@@ -32,7 +32,8 @@ public class BallController : MonoBehaviour
     }
 
     // ブロックと玉が衝突した場合、表示している数値を減らす
-    void OnTriggerEnter(Collider other)
+    //void OnTriggerEnter(Collider other)
+    void OnCollisionEnter( Collision other )
     {
         if( other.gameObject.CompareTag(tag_name))
         {
