@@ -32,7 +32,6 @@ public class BallController : MonoBehaviour
     }
 
     // ブロックと玉が衝突した場合、表示している数値を減らす
-    //void OnTriggerEnter(Collider other)
     void OnCollisionEnter( Collision other )
     {
         if( other.gameObject.CompareTag(tag_name))
@@ -40,17 +39,41 @@ public class BallController : MonoBehaviour
             blocks--;
             other.gameObject.SetActive(false);
             SetUI();
-            Debug.Log("test");
-        }
-        else
-        {
-            Debug.Log("FUCK UNCHI!!!l");
+            FixedBallVector();
         }
     }
 
     // UIの設定
-    void SetUI()
+    private void SetUI()
     {
         scoreText.text = "Count: " + blocks.ToString();
+    }
+
+    // ボールが水平にならないようにする
+    private void FixedBallVector()
+    {
+        // 移動する方向のベクトルを正規化します。
+        Vector2 velocityNormalized = GetComponent<Rigidbody>().velocity.normalized;
+
+        // 何もしないと角にぶつかったときに水平に移動を始める場合があります。
+        // それではゲームに支障をきたすので、移動する方向が一定範囲の角度の場合は、許可される範囲に丸めます。
+        float limitVerticalDeg = 10f;   // 垂直方向は 90 ± 10 度、270 ± 10 度の範囲の角度は近いほうに寄せる。
+        float limitHorizontalDeg = 45f; // 水平方向は 0 ± 45 度、 180 ± 45 度の範囲の角度は近いほうに寄せる。
+        if (velocityNormalized.x >= 0f)
+        {
+            velocityNormalized.x = Mathf.Clamp(velocityNormalized.x, Mathf.Cos(Mathf.Deg2Rad * (90 - limitVerticalDeg)), Mathf.Cos(Mathf.Deg2Rad * (0 + limitHorizontalDeg)));
+        }
+        else
+        {
+            velocityNormalized.x = Mathf.Clamp(velocityNormalized.x, Mathf.Cos(Mathf.Deg2Rad * (180 - limitHorizontalDeg)), Mathf.Cos(Mathf.Deg2Rad * (90 + limitVerticalDeg)));
+        }
+        if (velocityNormalized.y >= 0f)
+        {
+            velocityNormalized.y = Mathf.Clamp(velocityNormalized.y, Mathf.Sin(Mathf.Deg2Rad * (180 - limitHorizontalDeg)), Mathf.Sin(Mathf.Deg2Rad * (90 + limitVerticalDeg)));
+        }
+        else
+        {
+            velocityNormalized.y = Mathf.Clamp(velocityNormalized.y, Mathf.Sin(Mathf.Deg2Rad * (270 - limitVerticalDeg)), Mathf.Sin(Mathf.Deg2Rad * (180 + limitHorizontalDeg)));
+        }
     }
 }
