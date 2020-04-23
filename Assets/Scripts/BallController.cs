@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class BallController : MonoBehaviour
 {
@@ -28,7 +30,11 @@ public class BallController : MonoBehaviour
         blocks = tagObjects.Length; 
             
         SetUI();
-        Debug.Log("FUCK UNCHI!!!l");
+    }
+
+    private void Update()
+    {
+        FixedBallVector();
     }
 
     // ブロックと玉が衝突した場合、表示している数値を減らす
@@ -39,7 +45,12 @@ public class BallController : MonoBehaviour
             blocks--;
             other.gameObject.SetActive(false);
             SetUI();
-            FixedBallVector();
+
+            // 全てのブロックを削除できた場合初期画面に遷移
+            if( blocks == 0 )
+            {
+                SceneManager.LoadScene("StartWindow");
+            }
         }
     }
 
@@ -57,7 +68,7 @@ public class BallController : MonoBehaviour
 
         // 何もしないと角にぶつかったときに水平に移動を始める場合があります。
         // それではゲームに支障をきたすので、移動する方向が一定範囲の角度の場合は、許可される範囲に丸めます。
-        float limitVerticalDeg = 10f;   // 垂直方向は 90 ± 10 度、270 ± 10 度の範囲の角度は近いほうに寄せる。
+        float limitVerticalDeg = 20f;   // 垂直方向は 90 ± 10 度、270 ± 10 度の範囲の角度は近いほうに寄せる。
         float limitHorizontalDeg = 45f; // 水平方向は 0 ± 45 度、 180 ± 45 度の範囲の角度は近いほうに寄せる。
         if (velocityNormalized.x >= 0f)
         {
