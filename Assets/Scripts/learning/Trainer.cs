@@ -12,12 +12,16 @@ public class Trainer : MonoBehaviour
     // ボールに設定しているtagの名前
     private string ball_name = "agent";
 
+    // ブロック
+    GameObject[] blocks;
+
         
     // Qtable
     //private double[,] Q = new double[, 3];
 
     void Start()
     {
+        blocks = GameObject.FindGameObjectsWithTag(block_name);
         Reset();
     }
 
@@ -30,8 +34,6 @@ public class Trainer : MonoBehaviour
     public void Reset()
     {
         // ブロックの状態をリセットする
-        GameObject[] blocks = GameObject.FindGameObjectsWithTag(block_name);
-
         foreach( GameObject block in blocks)
         {
             block.SetActive(true);
