@@ -12,9 +12,7 @@ public class Trainer : MonoBehaviour
     // ボールに設定しているtagの名前
     private string ball_name = "agent";
 
-    // ボールの初速度
-    public float speed = 10;
-    
+        
     // Qtable
     //private double[,] Q = new double[, 3];
 
@@ -38,10 +36,6 @@ public class Trainer : MonoBehaviour
         {
             block.SetActive(true);
         }
-
-        // ボールの状態をリセットする
-        GameObject ball = GameObject.Find(ball_name);
-        var force = (transform.forward + transform.right) * speed;
-        ball.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+        Debug.Log("呼び出されました");
     }
 }

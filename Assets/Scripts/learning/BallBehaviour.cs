@@ -20,6 +20,9 @@ public class BallBehaviour : MonoBehaviour
     // ボールの初速度
     public float speed = 10;
 
+    // ボールの初期位置
+
+
     // trainerを保持しているオブジェクト
     GameObject trainer;
 
@@ -46,7 +49,12 @@ public class BallBehaviour : MonoBehaviour
         // ブロックの総数を数える
         GameObject[] tagObjects = GameObject.FindGameObjectsWithTag(block_name);
         blocks = tagObjects.Length;
+
+        // ボールの位置と速度を初期化
+        this.gameObject.transform.position = new Vector3(0f, 0f, 15f);   
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         
+        // ボールの初動を設定
         var force = (transform.forward + transform.right) * speed;
         GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
     }
@@ -98,13 +106,8 @@ public class BallBehaviour : MonoBehaviour
         {
             if ( other.gameObject.CompareTag(bottom_wall_name) )
             {
-                Debug.Log("呼び出されました");
                 script.Reset();
                 Reset();
-            }
-            else
-            {
-                Debug.Log(other.gameObject.tag);
             }
         }
         /*
