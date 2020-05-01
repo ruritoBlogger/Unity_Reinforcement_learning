@@ -104,20 +104,13 @@ public class BallBehaviour : MonoBehaviour
         }
         else
         {
+            // 底の壁と玉が接触した場合環境のリセットを実行
             if ( other.gameObject.CompareTag(bottom_wall_name) )
             {
                 script.Reset();
                 Reset();
             }
         }
-        /*
-        // 底の壁と玉が接触した場合環境のリセットを実行
-        else if ( other.gameObject.CompareTag(bottom_wall_name) )
-        {
-            script.Reset();
-            Reset();
-        }
-        */
     }
     
     // UIの設定
