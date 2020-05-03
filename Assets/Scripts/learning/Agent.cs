@@ -22,11 +22,11 @@ public class Agent : MonoBehaviour
 
     public int Policy( int state )
     {
-        try
+        if( Q.Length > state )
         {
-            return (Q[state][0] > Q[state][1]) ? 0 : 1;
+            return (Q[state,0] > Q[state,1]) ? 0 : 1;
         }
-        catch( IndexOutOfRangeException e )
+        else
         {
             Debug.Log("Q値のアクセス部分において配列外参照しています。引数のstateを確認してください");
             return 0;
@@ -35,13 +35,13 @@ public class Agent : MonoBehaviour
 
     public void Learn( int state, int next_state, int action, double reward )
     {
-        double max_action = Q[next_state][0];
-        if( Q[next_state][0] < Q[next_state][1] )
+        double max_action = Q[next_state,0];
+        if( Q[next_state,0] < Q[next_state,1] )
         {
-            max_action = Q[next_state][1];
+            max_action = Q[next_state,1];
         }
 
         double G = reward + gamma * max_action;
-        Q[state][action] += learning_rate * (G - Q[state][action]);
+        Q[state,action] += learning_rate * (G - Q[state,action]);
     }
 }

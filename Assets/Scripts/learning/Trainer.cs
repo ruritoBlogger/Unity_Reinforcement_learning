@@ -6,6 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class Trainer : MonoBehaviour
 {
+    // ここからはハイパーパラメータなど
+    //------------------------------------------
+
+    // gamma
+    private double gamma = 0.9;
+
+    // learning rate
+    private double learning_rate = 0.1;
+
+    // 学習済みのQtableを読み込むかどうか
+    private bool isLoadData = false;
+
+    // もし学習済みのQtableを読み込む場合のファイル
+    private string Qtable_name = "Qtable.txt";
+
+    //------------------------------------------
+    
+    // ここからはUnityの設定
+    
     // ブロックに設定しているtagの名前
     private string block_name = "enemy";
 
@@ -17,6 +36,10 @@ public class Trainer : MonoBehaviour
 
     // ballに設定しているtagの名前
     private string ball_name = "ball";
+    
+    //------------------------------------------
+    
+    // ここからは学習に必要な変数群
 
     // ブロック
     GameObject[] blocks;
@@ -36,17 +59,10 @@ public class Trainer : MonoBehaviour
     // observerのscript
     Observer observer_script;
 
-    // gamma
-    private double gamma = 0.9;
-
-    // learning rate
-    private double learning_rate = 0.1;
-
-    // 学習済みのQtableを読み込むかどうか
-    private bool isLoadData = false;
-
-    // もし学習済みのQtableを読み込む場合のファイル
-    private string Qtable_name = "Qtable.txt";
+    // 1サイクル前の状況
+    private int last_state;
+    
+    //------------------------------------------
 
     void Start()
     {
@@ -68,10 +84,11 @@ public class Trainer : MonoBehaviour
         int state = observer_script.Transform(agent, ball);
         int action = agent_script.Policy(state);
 
-        // next_stateはどうやって持ってこようかな
-        int next_state = 0;
-        int reward = 0;
-        agent_script.Learn(state, next_state, action, reward);
+        // 報酬周りも設定しないと
+        double reward = observer_script.GetReward(agent, ball);
+        agent_script.Learn(last_state, state, action, reward);
+
+        last_state = state;
     }
 
     // 環境のリセット
@@ -83,5 +100,8 @@ public class Trainer : MonoBehaviour
             block.SetActive(true);
         }
         Debug.Log("呼び出されました");
+
+        // last_stateの初期化
+        last_state = observer_script.Transform(agent, ball);
     }
 }

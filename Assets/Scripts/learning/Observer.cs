@@ -15,4 +15,17 @@ public class Observer : MonoBehaviour
             return 1;
         }
     }
+
+    public double GetReward( GameObject agent, GameObject ball )
+    {
+        // ボールを跳ね返せなかった時
+        if( agent.transform.position.y < ball.transform.position.y )
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    }
 }
