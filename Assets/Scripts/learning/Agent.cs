@@ -24,6 +24,7 @@ public class Agent : MonoBehaviour
     {
         if( Q.Length > state )
         {
+            Debug.Log(Q[state, 0] + " " + Q[state, 1]);
             return (Q[state,0] > Q[state,1]) ? 0 : 1;
         }
         else
@@ -43,5 +44,20 @@ public class Agent : MonoBehaviour
 
         double G = reward + gamma * max_action;
         Q[state,action] += learning_rate * (G - Q[state,action]);
+    }
+    
+    public void Move( int action )
+    {
+        // 0なら左
+        if( action == 0 )
+        {
+            var force = transform.right * 5000;
+            GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        }
+        else
+        {
+            var force = transform.right * -5000;
+            GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        }
     }
 }

@@ -78,6 +78,8 @@ public class Trainer : MonoBehaviour
         agent.GetComponent<Agent>().Learn(last_state, state, action, reward);
 
         last_state = state;
+
+        agent.GetComponent<Agent>().Move(action);
     }
 
     // 環境のリセット
