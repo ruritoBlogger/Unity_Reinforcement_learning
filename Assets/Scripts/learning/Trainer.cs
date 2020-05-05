@@ -10,10 +10,10 @@ public class Trainer : MonoBehaviour
     //------------------------------------------
 
     // gamma
-    private double gamma = 0.9;
+    public double gamma = 0.9;
 
     // learning rate
-    private double learning_rate = 0.1;
+    public double learning_rate = 0.1;
 
     // 学習済みのQtableを読み込むかどうか
     private bool isLoadData = false;
@@ -45,19 +45,14 @@ public class Trainer : MonoBehaviour
     GameObject[] blocks;
 
     // agent
-    GameObject agent;
+    public GameObject agent;
 
     // observer
-    GameObject observer;
+    public GameObject observer;
 
     // ball
-    GameObject ball;
+    public GameObject ball;
 
-    // agentのscript
-    Agent agent_script;
-
-    // observerのscript
-    Observer observer_script;
 
     // 1サイクル前の状況
     private int last_state;
@@ -67,26 +62,20 @@ public class Trainer : MonoBehaviour
     void Start()
     {
         blocks = GameObject.FindGameObjectsWithTag(block_name);
-        agent = GameObject.Find(agent_name);
-        agent_script = agent.GetComponent<Agent>();
-        agent_script.Init(isLoadData, gamma, learning_rate);
-
-        observer = GameObject.Find(observer_name);
-        observer_script = observer.GetComponent<Observer>();
-
-        ball = GameObject.Find(ball_name);
+        agent.GetComponent<Agent>().Init(isLoadData, gamma, learning_rate);
 
         Reset();
+        Debug.Log("実行されました");
     }
 
     void Update()
     {
-        int state = observer_script.Transform(agent, ball);
-        int action = agent_script.Policy(state);
+        int state = observer.GetComponent<Observer>().Transform(agent, ball);
+        int action = agent.GetComponent<Agent>().Policy(state);
 
         // 報酬周りも設定しないと
-        double reward = observer_script.GetReward(agent, ball);
-        agent_script.Learn(last_state, state, action, reward);
+        double reward = observer.GetComponent<Observer>().GetReward(agent, ball);
+        agent.GetComponent<Agent>().Learn(last_state, state, action, reward);
 
         last_state = state;
     }
@@ -102,6 +91,6 @@ public class Trainer : MonoBehaviour
         Debug.Log("呼び出されました");
 
         // last_stateの初期化
-        last_state = observer_script.Transform(agent, ball);
+        last_state = observer.GetComponent<Observer>().Transform(agent, ball);
     }
 }
