@@ -15,6 +15,8 @@ public class Trainer : MonoBehaviour
     // learning rate
     public double learning_rate = 0.1;
 
+    public double eplison = 0.1;
+
     // 学習済みのQtableを読み込むかどうか
     private bool isLoadData = false;
 
@@ -62,7 +64,7 @@ public class Trainer : MonoBehaviour
     void Start()
     {
         blocks = GameObject.FindGameObjectsWithTag(block_name);
-        agent.GetComponent<Agent>().Init(isLoadData, gamma, learning_rate);
+        agent.GetComponent<Agent>().Init(isLoadData, gamma, learning_rate, eplison);
 
         Reset();
         Debug.Log("実行されました");
