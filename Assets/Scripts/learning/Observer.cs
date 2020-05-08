@@ -19,13 +19,13 @@ public class Observer : MonoBehaviour
     public double GetReward( GameObject agent, GameObject ball )
     {
         // ボールを跳ね返せなかった時
-        if( agent.transform.position.y < ball.transform.position.y )
+        if( agent.transform.position.z > ball.transform.position.z )
         {
             return -1;
         }
         else
         {
-            return 1;
+            return 0;
         }
     }
 }
