@@ -18,9 +18,9 @@ public class UIBehavier : MonoBehaviour
 
     public void SetLogText( List<double> table )
     {
-        if (table.Count == 2)
+        if (table.Count > 2)
         {
-            LogText.text = "Qtable: [" + table[0] + "," + table[1] + "]";
+            LogText.text = "Qtable: [" + (int)(table[0]) + "," + (int)(table[1]) + "," + (int)(table[2]) + "]";
         }
     }
 }

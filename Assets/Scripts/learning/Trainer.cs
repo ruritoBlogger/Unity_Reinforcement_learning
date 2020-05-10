@@ -55,6 +55,9 @@ public class Trainer : MonoBehaviour
     // ball
     public GameObject ball;
 
+    // UI
+    public GameObject UI_Object;
+
 
     // 1サイクル前の状況
     private int last_state;
@@ -75,7 +78,9 @@ public class Trainer : MonoBehaviour
         int state = observer.GetComponent<Observer>().Transform(agent, ball);
         int action = agent.GetComponent<Agent>().Policy(state);
         double reward = observer.GetComponent<Observer>().GetReward(agent, ball);
+
         agent.GetComponent<Agent>().Learn(last_state, state, action, reward);
+        UI_Object.GetComponent<UIBehavier>().SetLogText(agent.GetComponent<Agent>().GetQtable(state)); 
 
         last_state = state;
         agent.GetComponent<Agent>().Move(action);
