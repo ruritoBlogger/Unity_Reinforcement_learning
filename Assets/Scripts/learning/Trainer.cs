@@ -74,13 +74,10 @@ public class Trainer : MonoBehaviour
     {
         int state = observer.GetComponent<Observer>().Transform(agent, ball);
         int action = agent.GetComponent<Agent>().Policy(state);
-
-        // 報酬周りも設定しないと
         double reward = observer.GetComponent<Observer>().GetReward(agent, ball);
         agent.GetComponent<Agent>().Learn(last_state, state, action, reward);
 
         last_state = state;
-
         agent.GetComponent<Agent>().Move(action);
     }
 

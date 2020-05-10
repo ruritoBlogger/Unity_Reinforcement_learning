@@ -43,6 +43,7 @@ public class BallBehaviour : MonoBehaviour
     void Update()
     {
         FixedBallVector();
+        PickBug();
     }
 
     private void Reset()
@@ -118,5 +119,15 @@ public class BallBehaviour : MonoBehaviour
     private void SetUI()
     {
         scoreText.text = "Count: " + blocks.ToString();
+    }
+
+    private void PickBug()
+    {
+        if( Mathf.Abs(transform.position.x) > 100
+            || Mathf.Abs(transform.position.z) > 100 )
+        {
+            script.Reset();
+            Reset();
+        }
     }
 }
