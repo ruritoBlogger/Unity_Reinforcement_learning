@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BallBehaviour : MonoBehaviour
 {
@@ -12,9 +11,7 @@ public class BallBehaviour : MonoBehaviour
     // ブロックに設定しているtagの名前
     private string block_name = "enemy";
     
-    // 残っているブロックの数を画面に表示する
-    public Text scoreText;
-
+    
     // 残っているブロックの数
     private int blocks;
     
@@ -22,7 +19,6 @@ public class BallBehaviour : MonoBehaviour
     public float speed = 10;
 
     // ボールの初期位置
-
 
     // trainerを保持しているオブジェクト
     GameObject trainer;
@@ -32,6 +28,9 @@ public class BallBehaviour : MonoBehaviour
 
     // trainerのscript
     Trainer script;
+
+    // UIを管理するオブジェクト
+    public GameObject UI_Object;
 
     void Start()
     {
@@ -44,6 +43,7 @@ public class BallBehaviour : MonoBehaviour
     {
         FixedBallVector();
         PickBug();
+        UI_Object.GetComponent<UIBehavier>().SetScoreText(blocks);
     }
 
     private void Reset()
@@ -95,7 +95,6 @@ public class BallBehaviour : MonoBehaviour
         {
             blocks--;
             other.gameObject.SetActive(false);
-            SetUI();
 
             // 全てのブロックを削除できた場合環境のリセットを実行
             if( blocks == 0 )
@@ -115,12 +114,6 @@ public class BallBehaviour : MonoBehaviour
         }
     }
     
-    // UIの設定
-    private void SetUI()
-    {
-        scoreText.text = "Count: " + blocks.ToString();
-    }
-
     private void PickBug()
     {
         if( Mathf.Abs(transform.position.x) > 100
