@@ -15,7 +15,7 @@ public class Trainer : MonoBehaviour
     // learning rate
     public double learning_rate = 0.1;
 
-    public double eplison = 0.1;
+    public double eplison = 0.01;
 
     // 学習済みのQtableを読み込むかどうか
     private bool isLoadData = false;

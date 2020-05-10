@@ -6,18 +6,28 @@ public class Observer : MonoBehaviour
 {
     public int Transform( GameObject agent, GameObject ball )
     {
+        int state = 0;
         if( Mathf.Abs(agent.transform.position.x - ball.transform.position.x) < 1 )
         {
-            return 2;
+            state += 2;
         }
         else if( agent.transform.position.x > ball.transform.position.x )
         {
-            return 1;
+            state += 1;
         }
-        else
+        if( ball.transform.position.z < 15 )
         {
-            return 0;
+            state += 3;
         }
+        if( agent.transform.position.x < -4 )
+        {
+            state += 6;
+        }
+        else if( agent.transform.position.x > 4 )
+        {
+            state += 12;
+        }
+        return state;
     }
 
     public double GetReward( GameObject agent, GameObject ball )
@@ -29,7 +39,7 @@ public class Observer : MonoBehaviour
         }
         else
         {
-            return 0;
+            return 0.1;
         }
     }
 }

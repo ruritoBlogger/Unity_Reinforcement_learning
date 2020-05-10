@@ -22,7 +22,7 @@ public class Agent : MonoBehaviour
         eplison = tmp_eplison;
 
         // Qtableの初期化
-        for( int i = 0; i < 3; i++ )
+        for( int i = 0; i < 18; i++ )
         {
             List<double> tmp = new List<double>();
             tmp.Add(0.0);
@@ -39,7 +39,7 @@ public class Agent : MonoBehaviour
         // eplison以上ならmax(Q[state])の行動を選択する
         if (eplison <= key)
         {
-            if (Q[state].Count > state)
+            if (Q.Count > state)
             {
                 int action = 0;
                 if( Q[state][0] < Q[state][1]
