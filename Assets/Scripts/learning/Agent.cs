@@ -41,8 +41,18 @@ public class Agent : MonoBehaviour
         {
             if (Q[state].Count > state)
             {
-                Debug.Log(Q[state][0] + " " + Q[state][1]);
-                return (Q[state][0] > Q[state][1]) ? 0 : 1;
+                int action = 0;
+                if( Q[state][0] < Q[state][1]
+                    && Q[state][2] < Q[state][1])
+                {
+                    action = 1;
+                }
+                else if( Q[state][0] < Q[state][2]
+                         && Q[state][1] < Q[state][2] )
+                {
+                    action = 2;
+                }
+                return action;
             }
             else
             {
@@ -53,24 +63,24 @@ public class Agent : MonoBehaviour
         else
         {
             double r1 = Random.value;
-            if( r1 > 0.5 )
+            if( r1 < 0.333 )
             {
                 return 0;
             }
-            else
+            else if( r1 < 0.666 )
             {
                 return 1;
+            }
+            else
+            {
+                return 2;
             }
         }
     }
 
     public void Learn( int state, int next_state, int action, double reward )
     {
-        double max_action = Q[next_state][0];
-        if( Q[next_state][0] < Q[next_state][1] )
-        {
-            max_action = Q[next_state][1];
-        }
+        double max_action = Q[next_state][Policy(next_state)];
 
         double G = reward + gamma * max_action;
         Q[state][action] += learning_rate * (G - Q[state][action]);
@@ -84,9 +94,14 @@ public class Agent : MonoBehaviour
             var force = transform.right * 5000;
             GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
         }
-        else
+        else if( action == 1 )
         {
             var force = transform.right * -5000;
+            GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        }
+        else
+        {
+            var force = transform.right * 0;
             GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
         }
     }

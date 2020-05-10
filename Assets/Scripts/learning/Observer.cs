@@ -6,13 +6,17 @@ public class Observer : MonoBehaviour
 {
     public int Transform( GameObject agent, GameObject ball )
     {
-        if( agent.transform.position.x < ball.transform.position.x )
+        if( Mathf.Abs(agent.transform.position.x - ball.transform.position.x) < 1 )
         {
-            return 0;
+            return 2;
+        }
+        else if( agent.transform.position.x > ball.transform.position.x )
+        {
+            return 1;
         }
         else
         {
-            return 1;
+            return 0;
         }
     }
 
