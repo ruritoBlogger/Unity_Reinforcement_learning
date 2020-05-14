@@ -61,16 +61,19 @@ public class Trainer : MonoBehaviour
 
     // 1サイクル前の状況
     private int last_state;
+
+    // 学習回数
+    private int episode;
     
     //------------------------------------------
 
     void Start()
     {
+        episode = 0;
         blocks = GameObject.FindGameObjectsWithTag(block_name);
         agent.GetComponent<Agent>().Init(isLoadData, gamma, learning_rate, eplison);
 
         Reset();
-        Debug.Log("実行されました");
     }
 
     void Update()
@@ -81,6 +84,7 @@ public class Trainer : MonoBehaviour
 
         agent.GetComponent<Agent>().Learn(last_state, state, action, reward);
         UI_Object.GetComponent<UIBehavier>().SetLogText(agent.GetComponent<Agent>().GetQtable(state)); 
+        UI_Object.GetComponent<UIBehavier>().SetEpisodeText(episode); 
 
         last_state = state;
         agent.GetComponent<Agent>().Move(action);
@@ -98,5 +102,6 @@ public class Trainer : MonoBehaviour
 
         // last_stateの初期化
         last_state = observer.GetComponent<Observer>().Transform(agent, ball);
+        episode += 1;
     }
 }
