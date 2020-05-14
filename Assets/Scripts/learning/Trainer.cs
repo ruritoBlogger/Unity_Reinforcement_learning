@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Trainer : MonoBehaviour
 {
@@ -98,7 +97,6 @@ public class Trainer : MonoBehaviour
         {
             block.SetActive(true);
         }
-        Debug.Log("呼び出されました");
 
         // last_stateの初期化
         last_state = observer.GetComponent<Observer>().Transform(agent, ball);
